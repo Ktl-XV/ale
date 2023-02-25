@@ -100,6 +100,21 @@ g:ale_javascript_eslint_suppress_missing_config
   configuration files are found.
 
 
+g:ale_javascript_eslint_project_root_file
+                                    *g:ale_javascript_eslint_project_root_file*
+                                    *b:ale_javascript_eslint_project_root_file*
+  Type: |String|
+  Default: `''`
+
+  This variable can be set to the name of a marker file that can be used to
+  identify the root of a project. Useful when working in monorepos where
+  the eslint executable is shared but each project might have different
+  configurations.
+
+  When using this option, if the marker file is not found, the regular project
+  root finding logic is used.
+
+
 ===============================================================================
 fecs                                                      *ale-javascript-fecs*
 

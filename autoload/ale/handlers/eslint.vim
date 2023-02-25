@@ -46,9 +46,21 @@ function! ale#handlers#eslint#GetCwd(buffer) abort
     " https://github.com/eslint/rfcs/blob/master/designs/2018-simplified-package-loading/README.md
     " https://github.com/dense-analysis/ale/issues/2787
     "
-    " If eslint is installed in a directory which contains the buffer, assume
-    " it is the ESLint project root.  Otherwise, use nearest node_modules.
+    " If g:ale_eslint_project_root_file is set use that marker to define the
+    " project root (useful in monorepos), else if eslint is installed in a
+    " directory which contains the buffer, assume it is the ESLint project root.
+    " Otherwise, use nearest node_modules.
     " Note: If node_modules not present yet, can't load local deps anyway.
+    if exists("g:ale_javascript_eslint_project_root_file")
+        let l:project_root_file = ale#path#FindNearestFile(a:buffer, g:ale_javascript_eslint_project_root_file)
+
+        if !empty(l:project_root_file)
+            let l:project_root = fnamemodify(l:project_root_file, ':h')
+
+            return l:project_root
+        endif
+    endif
+
     let l:executable = ale#path#FindNearestExecutable(a:buffer, s:executables)
 
     if !empty(l:executable)
